@@ -9,15 +9,15 @@ class GithubSpider(scrapy.Spider):
 	allowed_domains = ["github.com"]
 	language = ""
 
-	def format_location(l):
-		reformated_list = []
-		for i in l:
-			s = "location%3A%22" + string + "%22"
-			reformated_list.append(s)
-		return reformated_list
-
 	def start_requests(self):
 		
+		def format_location(l):
+			reformated_list = []
+			for i in l:
+				s = "location%3A%22" + i + "%22"
+				reformated_list.append(s)
+			return reformated_list
+
 		#LIST OF LOCATIONS
 		search_term_list_to_format = ["united+kingdom", 
 		"uk", "ireland", 
@@ -37,6 +37,7 @@ class GithubSpider(scrapy.Spider):
 		"croatia", "austria",
 		"lithuania", "latvia",
 		"estonia"]
+
 		search_term_list = format_location(search_term_list_to_format)
 		
 		skills = ["Javascript", "Python","C%23","C","CSS","HTML","Ruby","PHP","Java","Shell","C%2B%2B"]
@@ -56,14 +57,12 @@ class GithubSpider(scrapy.Spider):
 					for j in range(8):
 						if j < 4 :
 							#order asc
-							url = "http://github.com/search?l="+skill+"&o=asc"+"&p="+str(i)+"&q="+place+"&ref=searchresults&s="+search_filter[j]+"&type=Users&utf8=✓"
-							print("\n")
-							print("i: %s j:%s",(i,j))
+							url = "https://github.com/search?l="+skill+"&o=asc"+"&p="+str(i)+"&q="+place+"&ref=searchresults&s="+search_filter[j]+"&type=Users&utf8=✓"
 							yield Request(url, self.parse)
 						else:
 							j = j%4
 							#order desc
-							url = "http://github.com/search?l="+skill+"&o=desc"+"&p="+str(i)+"&q="+place+"&ref=searchresults&s="+search_filter[j]+"&type=Users&utf8=✓"
+							url = "https://github.com/search?l="+skill+"&o=desc"+"&p="+str(i)+"&q="+place+"&ref=searchresults&s="+search_filter[j]+"&type=Users&utf8=✓"
 							yield Request(url, self.parse)
 
 

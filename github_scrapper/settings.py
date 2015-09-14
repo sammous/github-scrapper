@@ -19,7 +19,7 @@ RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408, 429]
 
 DOWNLOAD_DELAY = 1
 
-PROXY_LIST = ''
+PROXY_LIST = '/Users/MACSAMI/Documents/workspace/github_scrapper/github_scrapper/list_proxy.txt'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'github_scrapper (+http://www.yourdomain.com)'
@@ -55,9 +55,13 @@ PROXY_LIST = ''
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'github_scrapper.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+#    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
+#    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+#    'github_scrapper.rotate_useragent.RotateUserAgentMiddleware': 400,
+#    'github_scrapper.randomProxy.RandomProxy': 100,
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -67,9 +71,9 @@ PROXY_LIST = ''
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'github_scrapper.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'github_scrapper.pipelines.SQLStore': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
