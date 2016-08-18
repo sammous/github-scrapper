@@ -10,7 +10,7 @@ class GithubSpider(scrapy.Spider):
 	language = ""
 
 	def start_requests(self):
-		
+
 		def format_location(l):
 			reformated_list = []
 			for i in l:
@@ -19,9 +19,9 @@ class GithubSpider(scrapy.Spider):
 			return reformated_list
 
 		#LIST OF LOCATIONS
-		search_term_list_to_format = ["united+kingdom", 
-		"uk", "ireland", 
-		"scotland", "wales", 
+		search_term_list_to_format = ["united+kingdom",
+		"uk", "ireland",
+		"scotland", "wales",
 		"london", "manchester",
 		"birmingham%22", "cambridge",
 		"oxford","leeds",
@@ -39,7 +39,7 @@ class GithubSpider(scrapy.Spider):
 		"estonia"]
 
 		search_term_list = format_location(search_term_list_to_format)
-		
+
 		skills = ["Javascript", "Python","C%23","C","CSS","HTML","Ruby","PHP","Java","Shell","C%2B%2B"]
 
 		#Sort filter, order : best matches, followers, repos
@@ -71,29 +71,31 @@ class GithubSpider(scrapy.Spider):
 		items = []
 
 		for users in response.xpath('//div[@class="user-list-item"]'):
-			email = users.xpath('.//div[2]/ul/li[2]/span/a/text()').extract()
-			username = users.xpath('.//div[2]/a/text()').extract()
-			location = users.xpath('.//div[2]/ul/li[1]/span/text()').extract()
-			name = users.xpath('.//*/text()').extract()[12]
+			email = users.xpath('.//div[@class="user-list-info"]/ul/li[2]/span/a/text()').extract()
+			username = users.xpath('.//div[@class="user-list-info"]/a/text()').extract()
+			location = users.xpath('.//div[@class="user-list-info"]/ul/li[1]/text()').extract()
+			name = users.xpath('.//*/text()').extract()
 			image = users.xpath('.//a/img/@src').extract()
+			joined = users.xpath('//div[@class="user-list-info"]/ul/li[3]/span/local-time/text()').extract()
 
 			item = GithubScrapperItem()
 
 			if len(email)==0:
 				item['email'] = u"null"
-				joined = users.xpath('.//div[2]/ul/li[2]/span/time/text()').extract()
 			else:
 				item['email'] = email[0]
-				joined = users.xpath('.//div[2]/ul/li[3]/span/time/text()').extract()
 
-
-			item['location'] = location[0].strip()
+			if len(location)>1:
+				location[0] = location[0].strip().strip('\n')
+				location[1] = location[1].strip().strip('\n')
+				
+			item['location'] = ','.join(location)[1:]
  			item['language'] = self.language
- 			item['name'] = name.strip("\n ")
+ 			item['name'] = name[0].strip("\n ")
  			item['joined'] = joined[0]
  			item['username'] = username[0]
  			item['image'] = image[0]
 
 			self.logger.info(item)
 
-		return item			
+		return item
