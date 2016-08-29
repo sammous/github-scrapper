@@ -19,7 +19,16 @@ RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408, 429]
 
 DOWNLOAD_DELAY = 1
 
-PROXY_LIST = '/Users/MACSAMI/Documents/workspace/github_scrapper/github_scrapper/list_proxy.txt'
+PROXY_LIST = '/Users/MACSAMI/Documents/Github/github_scrapper/github_scrapper/list_proxy.txt'
+
+#Database Information
+MYSQL_USER = 'root'
+MYSQL_PW = 'root'
+MYSQL_DB = 'github'
+MYSQL_HOST = 'localhost'
+
+MONGO_URI = 'mongodb://localhost:27017'
+MONGO_DATABASE = 'github'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'github_scrapper (+http://www.yourdomain.com)'
@@ -73,6 +82,7 @@ PROXY_LIST = '/Users/MACSAMI/Documents/workspace/github_scrapper/github_scrapper
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'github_scrapper.pipelines.SQLStore': 300,
+   'github_scrapper.pipelines.MongoPipeline': 500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
