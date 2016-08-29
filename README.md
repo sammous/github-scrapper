@@ -23,11 +23,11 @@ Do not forget to specify the path of the proxy list `/github_scrapper/list_proxy
 
 ### Database
 
-* The project uses a **MySQL** database named **github**.
+* You can use a **MySQL** database or **MongoDB**.
 
-* Run the sql file in `/github_scrapper/db/mysql.sql` with the command `source mysql.sql`. 
+* Run the sql file in `/github_scrapper/db/mysql.sql` with the command `source mysql.sql`.
 
-* Change credentials of your own database in `pipelines.py`. Default is username: **root** password: **root**. 
+* Change credentials of your own database in `settings.py`. Default is username: **root** password: **root**.
 
 
 #### Add a new table
@@ -47,4 +47,3 @@ You can add tables associated to a language respecting the syntax :
 
 * <https://github.com/aivarsk/scrapy-proxies>
 * <http://tangww.com/2013/06/UsingRandomAgent/>
- 
